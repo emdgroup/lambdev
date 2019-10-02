@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  rapid:
+    build: service
+    init: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./service:/app
+    ports:
+      - '9001:9001'
+    command: yarn start
+    network_mode: bridge
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      - AWS_DEFAULT_REGION
+
