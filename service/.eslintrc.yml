@@ -1,0 +1,16 @@
+env:
+  es6: true
+  jest: true
+
+extends:
+  - airbnb-base
+
+rules:
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: true
+
+  no-restricted-syntax: 0
+
+  no-bitwise: 0
+
