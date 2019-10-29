@@ -40,11 +40,13 @@ function fetch(opts, reqBody, cb) {
         if (!cb) return chunks.push(chunk);
         let newline = chunk.indexOf('\n');
         if (newline === -1) return chunks.push(chunk);
+        let currentChunk = chunk;
         while (newline > -1) {
-          const body = Buffer.concat([Buffer.concat(chunks), chunk.slice(0, newline + 1)]);
+          const body = Buffer.concat([Buffer.concat(chunks), currentChunk.slice(0, newline + 1)]);
           cb(isJson ? JSON.parse(body) : body);
-          chunks = [chunk.slice(newline + 1)];
-          newline = chunks[0].indexOf('\n');
+          chunks = [];
+          currentChunk = currentChunk.slice(newline + 1);
+          newline = currentChunk.indexOf('\n');
         }
       });
       res.on('end', () => {
