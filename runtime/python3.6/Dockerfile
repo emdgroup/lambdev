@@ -1,5 +1,7 @@
 FROM lambdev/runtime:python3.7
 
+COPY ./bootstrap /var/runtime
+
 FROM lambci/lambda-base
 
 ENV PATH=/var/lang/bin:$PATH \
@@ -10,8 +12,8 @@ RUN rm -rf /var/runtime /var/lang && \
   curl -s https://lambci.s3.amazonaws.com/fs/python3.6.tgz | tar -zx -C / && \
   rm -rf /var/runtime/awslambda
 
-COPY ./bootstrap /var/runtime
 COPY --from=0 \
+  /var/runtime/bootstrap \
   /var/runtime/bootstrap.py \
   /var/runtime/lambda_runtime_client.py \
   /var/runtime/lambda_runtime_exception.py \

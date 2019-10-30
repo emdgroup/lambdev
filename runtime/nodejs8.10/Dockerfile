@@ -3,6 +3,11 @@ FROM lambdev/runtime:nodejs10.x
 USER root
 RUN rm -rf /var/runtime/node_modules/aws-sdk
 
+COPY ./bootstrap /var/runtime/
+
+# assert.strict.ok is only available in NodeJS 10+
+RUN sed -i 's/^const assert.*/const assert = require("assert");/' /var/runtime/InvokeContext.js
+
 FROM lambci/lambda-base
 
 ENV PATH=/var/lang/bin:/usr/local/bin:/usr/bin/:/bin:/opt/bin \
@@ -14,9 +19,5 @@ RUN rm -rf /var/runtime /var/lang && \
   curl -s https://lambci.s3.amazonaws.com/fs/nodejs8.10.tgz | tar -zx -C /
 
 COPY --from=0 /var/runtime /var/runtime
-COPY ./bootstrap /var/runtime/
-
-# assert.strict.ok is only available in NodeJS 10+
-RUN sed -i 's/^const assert.*/const assert = require("assert");/' /var/runtime/InvokeContext.js
 
 ENTRYPOINT ["/var/runtime/bootstrap"]
