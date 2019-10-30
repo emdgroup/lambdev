@@ -3,7 +3,7 @@ RUNTIMES = nodejs10.x nodejs8.10 python3.7 python3.6 ruby2.5
 define BUILD_RUNTIME
 
 build-$(runtime):
-	docker build $(runtime) -t lambdev/runtime:$(runtime)
+	docker build runtime/$(runtime) -t lambdev/runtime:$(runtime)
 
 push-$(runtime):
 	docker push lambdev/runtime:$(runtime)
