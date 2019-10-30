@@ -1,5 +1,6 @@
 const { IncomingMessage } = require('http');
 
+const { ServiceError, errors: { ServiceFailure, ResourceNotFound } } = require('../error');
 
 class Request extends IncomingMessage {
   async json() {
@@ -18,7 +19,7 @@ class Request extends IncomingMessage {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validate({ bodyParameters }, body) {
+  validate({ bodyParameters = {} } = {}, body) {
     const validated = {};
     const errors = [];
     Object.keys(bodyParameters).forEach((name) => {
@@ -55,13 +56,18 @@ class Request extends IncomingMessage {
         } else {
           this[handler.handler](res, validated);
         }
-      } else {
+      } else if (handler) {
         this[handler.handler](res);
+      } else {
+        throw ResourceNotFound;
       }
     } catch (e) {
-      console.log('Unhandled request:', method, url);
-      console.log(e);
-      res.end();
+      const err = e instanceof ServiceError ? e : ServiceFailure;
+      res.json(e.toJSON(), e.statusCode);
+      if (err === ServiceFailure) {
+        console.log('ServiceFailure:', err.toString());
+        console.log(e);
+      }
     }
   }
 }
