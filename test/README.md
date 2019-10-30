@@ -1,0 +1,1 @@
+Shared Lambda functions for testing.
