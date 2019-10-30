@@ -111,8 +111,7 @@ class Request extends IncomingMessage {
   }
 
   async createFunction(res, body) {
-    res.json(body);
-    pool.createFunction({
+    await pool.createFunction({
       name: body.FunctionName,
       handler: body.Handler,
       runtime: body.Runtime,
@@ -120,6 +119,15 @@ class Request extends IncomingMessage {
       memory: body.MemorySize || 128,
       timeout: body.Timeout || 3,
     });
+    res.json(body);
+  }
+
+  async updateFunctionCode(res, { S3Bucket, S3Key }) {
+    const functionName = this.url.split('/')[3];
+    await pool.updateFunctionCode(functionName, {
+      code: { S3Bucket, S3Key },
+    });
+    res.json({ FunctionName: functionName });
   }
 }
 

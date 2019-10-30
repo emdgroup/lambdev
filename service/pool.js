@@ -5,6 +5,7 @@ const {
 const {
   errors: {
     InvalidParameterValue,
+    ResourceNotFound,
   },
 } = require('./error');
 
@@ -130,6 +131,18 @@ function createFunction(args) {
     handlers: new Set(),
   };
   return functionsByName.set(args.name, lambda);
+}
+
+async function updateFunctionCode(args) {
+  const fn = getFunctionByName();
+  if (!fn) throw ResourceNotFound;
+  fn.code = args.code;
+  const stopping = [];
+  for(let [containerId] of fn.containers) {
+    fn.containers.delete(containerId);
+    stopping.push(fetch('POST', '/containers/${containerId}/stop'));
+  }
+  return Promise.all(stopping);
 }
 
 function getFunctionByName(name) {
