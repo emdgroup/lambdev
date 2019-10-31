@@ -1,0 +1,4 @@
+# .dockerignore file for the ci container
+node_modules
+ci.Dockerfile
+Dockerfile
