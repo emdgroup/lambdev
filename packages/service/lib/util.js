@@ -30,22 +30,6 @@ function xmlExtract(xml, tag) {
   return null;
 }
 
-let CALLER_CREDENTIALS;
-
-async function getCallerIdentity() {
-  if (CALLER_CREDENTIALS) return CALLER_CREDENTIALS;
-  const [res, body] = await fetch(aws4.sign({
-    service: 'sts',
-    path: '/?Action=GetCallerIdentity&Version=2011-06-15',
-  }));
-  if (!res.ok) throw CredentialsInvalid.description(xmlExtract(body, 'Message'));
-  CALLER_CREDENTIALS = {
-    accountId: xmlExtract(body, 'Account'),
-    isAssumedRole: !!xmlExtract(body, 'Arn').match(/assumed-role/),
-  };
-  return CALLER_CREDENTIALS;
-}
-
 module.exports = {
   getLocalAddress,
   getCallerIdentity,

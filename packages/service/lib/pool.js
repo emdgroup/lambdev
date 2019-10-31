@@ -17,9 +17,9 @@ async function startContainer(fn) {
   const localPath = path.join(code.S3Bucket, code.S3Key);
   if (!path.isAbsolute(localPath)) throw InvalidParameterValue.description('Path to task must be absolute.');
   const image = `lambdev/runtime:${runtime}`;
-  const { accountId } = getCallerIdentity();
   // Add container Id as soon as possible to increase size by one
   const guid = UUIDv4();
+  const now = new Date();
   fn.containers.set(guid, {});
   const [res, container] = await fetch('POST', '/containers/create', {
     name: `lambda-${guid}`,
@@ -30,9 +30,10 @@ async function startContainer(fn) {
       `AWS_LAMBDA_FUNCTION_HANDLER=${handler}`,
       `_HANDLER=${handler}`,
       `AWS_LAMBDA_FUNCTION_NAME=${name}`,
+      `AWS_LAMBDA_LOG_GROUP_NAME=/aws/lambda/${name}`,
+      `AWS_LAMBDA_LOG_STREAM_NAME=${now.toISOString().substring(0, 10).replace(/-/g, '/')}/[$LATEST]${guid.replace(/-/g, '')}`,
       'AWS_LAMBDA_FUNCTION_VERSION=$LATEST',
       `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${memory}`,
-      `AWS_ACCOUNT_ID=${accountId}`,
       `AWS_REGION=${process.env.AWS_DEFAULT_REGION}`,
     ].concat([
       'AWS_DEFAULT_REGION',
