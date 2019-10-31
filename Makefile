@@ -34,5 +34,7 @@ install:
 test: install
 	yarn test
 
+build: test
+
 publish:
 	yarn lerna publish
