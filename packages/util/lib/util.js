@@ -11,6 +11,8 @@ const {
   },
 } = error;
 
+const DOCKER_API_VERSION = 'v1.25';
+
 function UUIDv4() {
   const guid = crypto.randomBytes(16);
   guid[6] = (guid[6] & 0x0f) | 0x40;
@@ -64,7 +66,7 @@ function fetchDocker(method, path, qs, reqBody, cb) {
   return fetch({
     protocol: 'http:',
     socketPath: '/var/run/docker.sock',
-    path: qs ? `/v1.40${path}?${querystring.encode(qs)}` : `/v1.40${path}`,
+    path: qs ? `/${DOCKER_API_VERSION}${path}?${querystring.encode(qs)}` : `/${DOCKER_API_VERSION}${path}`,
     method,
     headers: {
       'content-type': 'application/json',
