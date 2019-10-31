@@ -1,4 +1,4 @@
 node_modules
 __pycache__
-yarn.lock
+*/**/yarn.lock
 yarn-error.log
