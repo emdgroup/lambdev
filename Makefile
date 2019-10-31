@@ -26,3 +26,13 @@ push-service:
 
 build-all: $(build-all)
 push-all: $(push-all)
+
+install:
+	yarn
+	yarn lerna bootstrap 
+
+test: install
+	yarn test
+
+publish:
+	yarn lerna publish

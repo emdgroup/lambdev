@@ -1,4 +1,5 @@
 {
+  "private": true,
   "author": "Moritz Onken <onken@netcubed.de>",
   "homepage": "https://github.com/emdgroup/lambdev#readme",
   "devDependencies": {
@@ -9,6 +10,7 @@
     "lerna": "^3.18.3",
     "mocha": "^6.2.2"
   },
+  "workspaces": ["packages/*"],
   "scripts": {
     "lerna": "lerna",
     "test": "lerna exec yarn test"
