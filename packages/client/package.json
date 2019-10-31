@@ -36,7 +36,6 @@
     "url": "https://github.com/emdgroup/lambdev/issues"
   },
   "devDependencies": {
-    "aws-sdk": "^2.559.0",
-    "mocha": "^6.2.2"
+    "aws-sdk": "^2.559.0"
   }
 }

@@ -1,8 +1,6 @@
 const http = require('http');
 
-const {
-  UUIDv4, getCallerIdentity,
-} = require('./util');
+const { UUIDv4 } = require('./util');
 
 const IncomingMessage = require('./http/request');
 const Response = require('./http/response');
@@ -141,25 +139,7 @@ function createServer() {
   return server;
 }
 
-Promise.all([
-  pool.cleanUp(),
-  getCallerIdentity(),
-]).then(() => createServer().listen(9001, '0.0.0.0', () => {
-  console.log('Listening on 0.0.0.0:9001');
-}), (err) => {
-  console.error(err.toString());
-  process.exit(1);
-});
-
 module.exports = {
   createServer,
+  pool,
 };
-
-async function handle(signal) {
-  console.log(`Received ${signal}`);
-  await pool.cleanUp();
-  process.exit(0);
-}
-
-process.on('SIGINT', handle);
-process.on('SIGTERM', handle);

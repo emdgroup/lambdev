@@ -13,9 +13,16 @@ describe('client', () => {
   });
 
   describe('aws-sdk', () => {
+    let client;
+
+    before(async () => {
+      client = new Client();
+      return client.start();
+    });
+
+    after(async () => client.stop());
+
     it('use endpoint', async () => {
-      const client = new Client();
-      client.start();
       const endpoint = await client.getEndpoint();
       const lambda = new Lambda({
         region: 'us-east-1',
@@ -28,14 +35,13 @@ describe('client', () => {
         Runtime: 'nodejs10.x',
         Role: 'norole',
         Handler: 'index.handler',
-        Code: { S3Bucket: process.cwd(), S3Key: '../../task' },
+        Code: { S3Bucket: process.cwd(), S3Key: '../../test/task' },
       }).promise();
-      console.log(await lambda.invoke({
+      const response = await lambda.invoke({
         FunctionName: 'test',
         Payload: JSON.stringify({}),
-      }).promise());
-      return client.stop();
+      }).promise();
+      assert.deepEqual(response, { StatusCode: 200, Payload: JSON.stringify({ body: 'some response' }) });
     });
   });
-
 });

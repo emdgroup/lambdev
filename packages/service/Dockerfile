@@ -12,4 +12,4 @@ WORKDIR /app
 
 EXPOSE 9001
 
-CMD ["node", "/app"]
+CMD ["node", "/app/bin/lambdev"]

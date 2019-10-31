@@ -28,13 +28,12 @@
     "url": "git+https://github.com/emdgroup/lambdev.git"
   },
   "scripts": {
+    "lerna": "../../node_modules/.bin/lerna",
     "test": "echo 1"
   },
   "bugs": {
     "url": "https://github.com/emdgroup/lambdev/issues"
   },
   "devDependencies": {
-    "aws-sdk": "^2.559.0",
-    "mocha": "^6.2.2"
   }
 }

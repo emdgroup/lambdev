@@ -1,13 +1,11 @@
 const path = require('path');
 const {
-  fetchDocker: fetch, UUIDv4, getLocalAddress, getCallerIdentity,
-} = require('./util');
-const {
   errors: {
     InvalidParameterValue,
     ResourceNotFound,
   },
-} = require('./error');
+  fetchDocker: fetch, UUIDv4, getLocalAddress, getCallerIdentity,
+} = require('./util');
 
 const functionsByName = new Map();
 const functionsByAddress = new Map();
@@ -138,7 +136,7 @@ async function updateFunctionCode(args) {
   if (!fn) throw ResourceNotFound;
   fn.code = args.code;
   const stopping = [];
-  for(let [containerId] of fn.containers) {
+  for (const [containerId] of fn.containers) {
     fn.containers.delete(containerId);
     stopping.push(fetch('POST', '/containers/${containerId}/stop'));
   }
