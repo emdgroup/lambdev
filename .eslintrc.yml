@@ -1,9 +1,13 @@
 env:
   es6: true
-  jest: true
+  mocha: true
+
+plugins:
+  - mocha
 
 extends:
   - airbnb-base
+  - plugin:mocha/recommended
 
 rules:
   import/no-extraneous-dependencies:
@@ -13,3 +17,5 @@ rules:
   no-restricted-syntax: 0
 
   no-bitwise: 0
+
+  mocha/no-mocha-arrows: 0

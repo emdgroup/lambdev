@@ -2,10 +2,12 @@
   "author": "Moritz Onken <onken@netcubed.de>",
   "homepage": "https://github.com/emdgroup/lambdev#readme",
   "devDependencies": {
-    "lerna": "^3.18.3",
     "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-mocha": "^6.2.1",
+    "lerna": "^3.18.3",
+    "mocha": "^6.2.2"
   },
   "scripts": {
     "lerna": "lerna",
