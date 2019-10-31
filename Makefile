@@ -29,16 +29,15 @@ push-all: $(push-all)
 
 install:
 	yarn
-	yarn lerna bootstrap 
+	yarn lerna bootstrap
 
 test: install
 	yarn test
 
 credentials:
 	curl -s 169.254.170.2$(AWS_CONTAINER_CREDENTIALS_RELATIVE_URI)
-	curl -s 169.254.170.2$(AWS_CONTAINER_CREDENTIALS_RELATIVE_URI) | jq
 
-build: credentials test
+build: test
 
 publish:
 	yarn lerna publish
