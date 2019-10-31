@@ -1,6 +1,6 @@
 const { IncomingMessage } = require('http');
 
-const { ServiceError, errors: { ServiceFailure, ResourceNotFound } } = require('../error');
+const { ServiceError, errors: { ServiceFailure, ResourceNotFound } } = require('../util');
 
 class Request extends IncomingMessage {
   async json() {

@@ -28,7 +28,6 @@ function xmlExtract(xml, tag) {
 
 module.exports = {
   getLocalAddress,
-  getCallerIdentity,
   GUID_REGEX,
   NAME_REGEX,
   ...util,
