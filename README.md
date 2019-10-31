@@ -1,3 +1,5 @@
+![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidkJzWkFuQUVyYk15YWJnMFdhTFo1TktvY0dScm1LNzR6QklONVZTRWZyQ0x0V3ZMRWNuMnoxeXVNT250bXNvQ0lhMW1uWHIzSktuMjhkYVFjWXBWUDhBPSIsIml2UGFyYW1ldGVyU3BlYyI6ImZlRTF3Z1d6OU0zdHdLU3IiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+
 # LambDev
 
 A local Lambda development environment that supports warm containers and concurreny.
