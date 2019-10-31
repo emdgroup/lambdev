@@ -18,7 +18,7 @@ $(foreach runtime,$(RUNTIMES), \
 )
 
 build-service:
-	docker build service -t lambdev/service:latest
+	docker build packages/service -t lambdev/service:latest
 
 push-service:
 	docker push lambdev/service:latest
@@ -37,7 +37,7 @@ test: install
 credentials:
 	curl -s 169.254.170.2$(AWS_CONTAINER_CREDENTIALS_RELATIVE_URI)
 
-build: test
+build: build-service test
 
 publish:
 	yarn lerna publish
