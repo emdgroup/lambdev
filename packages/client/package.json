@@ -22,7 +22,8 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -38,5 +39,5 @@
   "devDependencies": {
     "aws-sdk": "^2.559.0"
   },
-  "gitHead": "0e9c60dd7982344a112a53917d2f3136b2a94177"
+  "gitHead": "bb57db10d5622a51b23c42dcb2454760d8b5e37f"
 }
