@@ -13,6 +13,11 @@ const {
 
 const DOCKER_API_VERSION = 'v1.25';
 
+const agents = new Map(
+  [http, new http.Agent({ keepAlive: true })],
+  [https, new https.Agent({ keepAlive: true })],
+);
+
 function UUIDv4() {
   const guid = crypto.randomBytes(16);
   guid[6] = (guid[6] & 0x0f) | 0x40;
@@ -30,6 +35,7 @@ function UUIDv4() {
 function fetch(opts, reqBody, cb) {
   return new Promise((resolve, reject) => {
     const client = opts.protocol === 'http:' ? http : https;
+    opts.agents = agents.get(client);
     const req = client.request(opts, (res) => {
       const isJson = res.headers['content-type'] === 'application/json';
       let chunks = [];
@@ -74,27 +80,27 @@ function fetchDocker(method, path, qs, reqBody, cb) {
   }, reqBody, cb);
 }
 
-function waitForService(host, port, timeout, error) {
+function waitForService(host, port, timeout, err) {
   return new Promise((resolve, reject) => {
-    if (timeout < 0) return reject(error);
+    if (timeout < 0) throw err;
 
     const start = new Date().getTime();
 
-    const s = http.request({ port, host, protocol: 'http:' }, (res) => {
+    const s = http.request({ port, host, protocol: 'http:' }, () => {
       clearTimeout(i);
       resolve();
     });
 
     const i = setTimeout(() => {
       s.destroy();
-      reject("timeout");
+      reject(new Error('timeout'));
     }, timeout);
 
-    s.on('error', async (err) => {
+    s.on('error', async (sErr) => {
       clearTimeout(i);
       await new Promise((rsv) => setTimeout(rsv, 1000));
       const end = new Date().getTime();
-      waitForService(host, port, timeout - end + start, err)
+      waitForService(host, port, timeout - end + start, sErr)
         .then(resolve)
         .catch(reject);
     });
