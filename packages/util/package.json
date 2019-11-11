@@ -21,7 +21,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+    "registry": "https://registry.npm.org"
   },
   "repository": {
     "type": "git",
