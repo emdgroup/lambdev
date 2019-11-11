@@ -1,0 +1,16 @@
+TemplateURL: https://hcie-templates.s3-eu-west-1.amazonaws.com/continuous-integration/v2.0.0/build.template.json
+
+StackName: lambdev-build
+
+Capabilities:
+  - CAPABILITY_IAM
+
+Parameters:
+  - ParameterKey: BuildSpec
+    ParameterValue: Make
+
+  - ParameterKey: PrivilegedMode
+    ParameterValue: Yes
+
+  - ParameterKey: RuntimeVersions
+    ParameterValue: 'docker: 18, nodejs: 10'
