@@ -21,7 +21,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npm.org"
+    "registry": "https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",
@@ -33,5 +33,6 @@
   },
   "bugs": {
     "url": "https://github.com/emdgroup/lambdev/issues"
-  }
+  },
+  "gitHead": "0e9c60dd7982344a112a53917d2f3136b2a94177"
 }
