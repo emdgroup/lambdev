@@ -52,7 +52,7 @@ module.exports = {
         },
         Runtime: {
           required: true,
-          allowedValues: ['nodejs8.10', 'nodejs10.x', 'python3.6', 'python3.7', 'ruby2.5'],
+          allowedValues: ['nodejs8.10', 'nodejs10.x', 'nodejs12.x', 'python3.6', 'python3.7', 'python3.8', 'ruby2.5', 'java11'],
         },
         MemorySize: {
           type: 'number',
