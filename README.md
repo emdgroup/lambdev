@@ -109,12 +109,18 @@ Percentage of the requests served within a certain time (ms)
 
 Only runtimes that have been updated by AWS to implement the [Lambda Runtime Interface](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html) are supported.
 
+* nodejs12.x
 * nodejs10.x
+* python3.8
 * python3.7
+* java11
 * ruby2.5
+* provided (any [custom runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) implementation)
+
+*use with caution*
+
 * nodejs8.10 (runtime backported from nodejs10.x)
 * python3.6 (runtime backported from python3.7)
-* provided (any [custom runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) implementation)
 
 ## Develop
 

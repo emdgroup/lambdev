@@ -1,4 +1,4 @@
-RUNTIMES = nodejs10.x nodejs8.10 python3.7 python3.6 ruby2.5 provided
+RUNTIMES = nodejs12.x nodejs10.x nodejs8.10 python3.8 python3.7 python3.6 ruby2.5 provided java11
 
 define BUILD_RUNTIME
 
