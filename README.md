@@ -23,7 +23,7 @@ echo 'let i = 0; exports.handler = async (event) => ({ body: `Hello World ${i++}
 # to form an absolute path to the Lambda code
 aws lambda create-function \
   --endpoint http://localhost:9001 --no-sign-request \
-  --function-name MyFunction --runtime nodejs10.x --role SomeRole --handler index.handler \
+  --function-name MyFunction --runtime nodejs12.x --role SomeRole --handler index.handler \
   --code S3Bucket=`pwd`,S3Key=lambda
 
 # Invoke the function
