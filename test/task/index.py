@@ -1,3 +1,3 @@
 def handler(event, context):
   print(event)
-  return {'Hello':'World'}
+  return {'body':'some response'}

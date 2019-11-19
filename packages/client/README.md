@@ -18,7 +18,10 @@ const client = new Client();
   await client.createFunction({
     runtime: 'nodejs10.x',
     name: 'foobar',
-  }).catch(err => console.log(err));
+    // lambda function code is located in ./task/index.js
+    handler: 'index.handler',
+    code: { S3Bucket: process.cwd(), S3Key: 'task' },
+  });
 
   // Invoke a function
   const [res, body] = await client.invoke('foobar', { foo: 'bar' });
