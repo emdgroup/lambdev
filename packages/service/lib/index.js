@@ -129,6 +129,12 @@ class Request extends IncomingMessage {
     });
     res.json({ FunctionName: functionName });
   }
+
+  async putFunctionConcurrency(res, { ReservedConcurrentExecutions }) {
+    const functionName = this.url.split('/')[3];
+    await pool.putFunctionConcurrency(functionName, ReservedConcurrentExecutions);
+    res.json({ ReservedConcurrentExecutions });
+  }
 }
 
 function createServer() {

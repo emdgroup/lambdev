@@ -4,7 +4,7 @@ const {
     InvalidParameterValue,
     ResourceNotFound,
   },
-  fetchDocker: fetch, UUIDv4, getLocalAddress, getCallerIdentity,
+  fetchDocker: fetch, UUIDv4, getLocalAddress,
 } = require('./util');
 
 const functionsByName = new Map();
@@ -96,7 +96,6 @@ async function startContainer(fn) {
   } if (res.statusCode === 400) {
     return Promise.reject(InvalidParameterValue.description(container.message));
   }
-  console.log(container);
   return Promise.reject();
 }
 
@@ -115,13 +114,14 @@ async function ensureCapacity(name) {
   const fn = functionsByName.get(name);
   if (!fn) return null;
   // TODO: scale up to concurrency defined in function configuration
-  if (fn.handlers.size === 0 && fn.containers.size < 5) return startContainer(fn);
+  if (fn.handlers.size === 0 && fn.containers.size < fn.concurrency) return startContainer(fn);
   return fn;
 }
 
 function createFunction(args) {
   const lambda = {
     ...args,
+    concurrency: 3,
     containers: new Map(),
     invocations: {
       queued: new Map(),
@@ -132,18 +132,6 @@ function createFunction(args) {
   return functionsByName.set(args.name, lambda);
 }
 
-async function updateFunctionCode(args) {
-  const fn = getFunctionByName();
-  if (!fn) throw ResourceNotFound;
-  fn.code = args.code;
-  const stopping = [];
-  for (const [containerId] of fn.containers) {
-    fn.containers.delete(containerId);
-    stopping.push(fetch('POST', '/containers/${containerId}/stop'));
-  }
-  return Promise.all(stopping);
-}
-
 function getFunctionByName(name) {
   return functionsByName.get(name);
 }
@@ -152,10 +140,31 @@ function getFunctionByAddress(address) {
   return functionsByAddress.get(address);
 }
 
+async function updateFunctionCode(args) {
+  const fn = getFunctionByName();
+  if (!fn) throw ResourceNotFound;
+  fn.code = args.code;
+  const stopping = [];
+  for (const [containerId] of fn.containers) {
+    fn.containers.delete(containerId);
+    stopping.push(fetch('POST', `/containers/${containerId}/stop`));
+  }
+  return Promise.all(stopping);
+}
+
+async function putFunctionConcurrency(concurrency) {
+  const fn = getFunctionByName();
+  if (!fn) throw ResourceNotFound;
+  fn.concurrency = concurrency;
+  return concurrency;
+}
+
 module.exports = {
   cleanUp,
   createFunction,
   ensureCapacity,
   getFunctionByAddress,
   getFunctionByName,
+  updateFunctionCode,
+  putFunctionConcurrency,
 };

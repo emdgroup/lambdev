@@ -69,31 +69,39 @@ module.exports = {
     },
   ],
   PUT: [{
-      url: new RegExp(`^/2015-03-31/functions/${NAME_REGEX}/code$`),
-      handler: 'updateFunctionCode',
-      bodyParameters: {
-        DryRun: {
-          type: 'boolean',
-        },
-        Publish: {
-          type: 'boolean',
-        },
-        RevisionId: {
-        },
-        S3Bucket: {
-          required: true,
-          pattern: new RegExp('^[0-9A-Za-z\.\-_]*(?<!\.)$'),
-        },
-        S3Key: {
-          required: true,
-          MaxLength: 1024,
-        },
-        S3ObjectVersion: {
-          MaxLength: 1024,
-        },
-        ZipFile: {
-        },
+    url: new RegExp(`^/2015-03-31/functions/${NAME_REGEX}/code$`),
+    handler: 'updateFunctionCode',
+    bodyParameters: {
+      DryRun: {
+        type: 'boolean',
+      },
+      Publish: {
+        type: 'boolean',
+      },
+      RevisionId: {
+      },
+      S3Bucket: {
+        required: true,
+        pattern: new RegExp('^[0-9A-Za-z\.\-_]*(?<!\.)$'),
+      },
+      S3Key: {
+        required: true,
+        MaxLength: 1024,
+      },
+      S3ObjectVersion: {
+        MaxLength: 1024,
+      },
+      ZipFile: {
       },
     },
-  ],
+  }, {
+    url: new RegExp(`^/2015-03-31/functions/${NAME_REGEX}/concurrency$`),
+    handler: 'updateFunctionCode',
+    bodyParameters: {
+      ReservedConcurrentExecutions: {
+        type: 'number',
+        minimum: 0,
+      },
+    },
+  }],
 };
