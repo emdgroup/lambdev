@@ -20,9 +20,11 @@ class Request extends IncomingMessage {
       // TODO: ensure container is unpaused
       // TODO: start timer and terminate container after $TIMEOUT seconds
       res.setHeaders([
+        ['Content-Type', 'application/json'],
         ['Lambda-Runtime-Deadline-Ms', Date.now() + timeout * 1000],
         ['Lambda-Runtime-Invoked-Function-Arn', 'some-arn'],
         ['Lambda-Runtime-Aws-Request-Id', invocation.id],
+        ['Lambda-Runtime-Trace-Id', ''],
       ]);
       invocation.req.pipe(res);
     };
