@@ -7,8 +7,6 @@
 
 A local Lambda development environment that supports warm containers and concurreny.
 
-*Work in Progress*
-
 ## Run Local Lambda Service
 
 ```bash
@@ -20,7 +18,7 @@ docker run --rm \
 
 # Create a mock lambda function
 mkdir lambda
-echo 'let i = 0; exports.handler = async (event) => ({ body: `Hello World ${i++}!` })' > lambda/index.js
+echo 'let i = 0; exports.handler = async () => ({ body: `Hello World ${i++}!` })' > lambda/index.js
 
 # Create a Lambda function with the AWS CLI, the S3Bucket and S3Key parameters are joined
 # to form the absolute path to the code
@@ -29,13 +27,10 @@ aws lambda create-function \
   --function-name MyFunction --runtime nodejs12.x --role SomeRole --handler index.handler \
   --code S3Bucket=`pwd`,S3Key=lambda
 
-# Invoke the function
+# Invoke the function multiple times to see the response change with each invocation
 aws lambda invoke \
   --endpoint http://localhost:9001 --no-sign-request \
-  --function-name MyFunction --payload '{}' output.json
-
-# Print response
-cat output.json
+  --function-name MyFunction --payload '{}' output.json && cat output.json
 
 # Or with curl
 curl -X POST http://localhost:9001/2015-03-31/functions/MyFunction/invocations -d '{}'
@@ -54,7 +49,7 @@ aws lambda put-function-concurrency \
 
 ## Motivation
 
-Serverless development always felt a little more painful than it should be. With the advent of the fabolous [docker-lambda](https://github.com/lambci/docker-lambda) project by LambCI (which powers [SAM local](https://github.com/awslabs/aws-sam-cli), the [Serverless Framework](https://serverless.com) and [localstack](https://github.com/localstack/localstack)) things got much better. However, the most requested feature is support for warm containers ([aws-sam-cli#239](https://github.com/awslabs/aws-sam-cli/issues/239)) and shorter request times. Warm containers and concurreny would model the production Lambda environment even more realistically as you can execute code that is only run once per function instantiation instead of running them on every invocation (e.g. decrypt secrets, load modules, maintain a local cache).
+Serverless development always felt a little more painful than it should be. With the advent of the fabolous [docker-lambda](https://github.com/lambci/docker-lambda) project by LambCI (which powers [SAM local](https://github.com/awslabs/aws-sam-cli), the [Serverless Framework](https://serverless.com) and [localstack](https://github.com/localstack/localstack)) things got much better. However, the most requested feature is support for warm containers ([aws-sam-cli#239](https://github.com/awslabs/aws-sam-cli/issues/239)) and shorter request times. Warm containers and concurreny would model the production Lambda environment even more closely as you can execute code that is only run once per function instantiation instead of running them on every invocation (e.g. decrypt secrets, load modules, maintain a local cache).
 
 This project set out to solve this problem while still heavily relying on the `docker-lambda` suite of runtimes. Instead of starting a new container for every request, this project implements the server side of the [Lambda Runtime Interface](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html) (LRI). The containers will launch and remain warm while polling the LRI for new invocations. This dramatically reduces the overhead for each invocation and you can expect response times of less than 10ms on average.
 
