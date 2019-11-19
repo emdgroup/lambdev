@@ -121,7 +121,7 @@ async function ensureCapacity(name) {
 function createFunction(args) {
   const lambda = {
     ...args,
-    concurrency: 3,
+    concurrency: 2,
     containers: new Map(),
     invocations: {
       queued: new Map(),
