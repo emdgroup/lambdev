@@ -1,6 +1,6 @@
 {
   "name": "@lambdev/service",
-  "version": "0.0.1-alpha.3",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "Moritz Onken <onken@netcubed.de>",
   "homepage": "https://github.com/emdgroup/lambdev#readme",
@@ -9,7 +9,7 @@
     "node": ">= 10.0"
   },
   "dependencies": {
-    "@lambdev/util": "^0.0.1-alpha.3",
+    "@lambdev/util": "^1.0.0",
     "aws4": "^1.8.0"
   },
   "main": "lib/index.js",
