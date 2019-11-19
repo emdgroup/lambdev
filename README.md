@@ -1,4 +1,7 @@
-![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidkJzWkFuQUVyYk15YWJnMFdhTFo1TktvY0dScm1LNzR6QklONVZTRWZyQ0x0V3ZMRWNuMnoxeXVNT250bXNvQ0lhMW1uWHIzSktuMjhkYVFjWXBWUDhBPSIsIml2UGFyYW1ldGVyU3BlYyI6ImZlRTF3Z1d6OU0zdHdLU3IiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidkJzWkFuQUVyYk15YWJnMFdhTFo1TktvY0dScm1LNzR6QklONVZTRWZyQ0x0V3ZMRWNuMnoxeXVNT250bXNvQ0lhMW1uWHIzSktuMjhkYVFjWXBWUDhBPSIsIml2UGFyYW1ldGVyU3BlYyI6ImZlRTF3Z1d6OU0zdHdLU3IiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master) 
+[![Docker Pulls](https://img.shields.io/docker/pulls/lambdev/service)](https://hub.docker.com/r/lambdev/service)
+![Apache License](https://img.shields.io/badge/license-Apache--2.0-yellow)
+![Platforms](https://img.shields.io/badge/platform-macos%20%7C%20linux-lightgrey)
 
 # LambDev
 
@@ -20,7 +23,7 @@ mkdir lambda
 echo 'let i = 0; exports.handler = async (event) => ({ body: `Hello World ${i++}!` })' > lambda/index.js
 
 # Create a Lambda function with the AWS CLI, the S3Bucket and S3Key parameters are joined
-# to form an absolute path to the Lambda code
+# to form the absolute path to the code
 aws lambda create-function \
   --endpoint http://localhost:9001 --no-sign-request \
   --function-name MyFunction --runtime nodejs12.x --role SomeRole --handler index.handler \
@@ -42,6 +45,11 @@ curl -X POST http://localhost:9001/2015-03-31/functions/MyFunction/invocations -
 aws lambda update-function-code \
   --endpoint http://localhost:9001 --no-sign-request \
   --function-name MyFunction --s3-bucket `pwd` --s3-key=lambda
+
+# Set concurreny to 10 (defaults to 2)
+aws lambda put-function-concurrency \
+  --endpoint http://localhost:9001 --no-sign-request \
+  --function-name MyFunction --reserved-concurrent-executions 10
 ```
 
 ## Motivation
